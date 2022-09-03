@@ -9,7 +9,7 @@
 
 ## Answer
 
-The example figure below shows the growth in the number of websites between 1993 and 1996.
+The example figure below shows the graph of the trigonometry function *y = sin x.*
 
 ![\label{fig:sine-graph}](https://github.com/sofia-huang/data440/blob/main/hw0/report/Sine-Graph.png)
 
