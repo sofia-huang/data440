@@ -11,7 +11,7 @@
 
 The example figure below shows the graph of the trigonometry function *y = sin x.*
 
-![\label{fig:sine-graph}](https://github.com/sofia-huang/data440/blob/main/hw0/report/Sine-Graph.png)
+![\label{fig:sine-graph}](Sine-Graph.png)
 
 *If you want to include code in your report, you can insert a screenshot (if it's legible), or you can copy/paste the code into a fenced code block.*
 
