@@ -15,8 +15,9 @@ The example figure below shows the graph of the trigonometry function *y = sin x
 
 *If you want to include code in your report, you can insert a screenshot (if it's legible), or you can copy/paste the code into a fenced code block.*
 
-```a = 1
-
+```
+# code to divide 1 by an inputted number
+a = 1
 try:
     b = int(input("Please enter a number to divide a"))
     a = a/b
