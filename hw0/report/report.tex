@@ -67,7 +67,7 @@ Sofia Huang\\
 %-------------------------------------------------------------------------
 
 % The * after \section just says to not number the sections
-\section*{Q1}
+\section*{Part 1, Question 1}
 
 \emph{You may copy the question into your report, but make sure that you make it clear where the question ends and your answer begins.}
 
@@ -143,30 +143,183 @@ Table \ref{tbl:simple} shows a simple example table.  Table \ref{tbl:confusion} 
 
 \subsection*{Discussion}
 
-\emph{You must provide some discussion of every answer. Discuss how you arrived at the answer and the tools you used. Discuss the implications of your answer.}
+For the first part of the homework assignment I followed the instructions given to replace various figures and code blocks to get familiar with Latex. 
 
-\section*{Q2}
-
-\subsection*{Answer}
-
-\subsection*{Discussion}
-
-
-\section*{Q3}
+\section*{Part 2, Question 1}
 
 \subsection*{Answer}
 
+\begin{lstlisting}[language=bash, caption=Permissions on directory, label=lst:copy]
+(base) sofiahuang@Sofias-MacBook-Pro Desktop % chmod 700 data440 
+(base) sofiahuang@Sofias-MacBook-Pro Desktop % ls -l data440
+total 8
+-rwx------@ 1 sofiahuang  staff  45 Sep  6 10:26 test.txt
+\end{lstlisting}
+
 \subsection*{Discussion}
+
+I googled how to change the permissions on a directory using the Terminal and I came across \lstinline{chmod}. The $700$ after the command denotes what the permissions are being changed to. The first digit placeholder represents the user permissions, the second is for groups, and the third is for others. Then, the actual number represents the sum of the type of permissions: 4 - read, 2 - write, 1 - execute, 0 - none. So, to give the user permission to read, write, and execute, we add $4 + 2 + 1 = 7$. Then, everyone else (groups and others) is assigned 0 for no permissions.
+
+\section*{Part 2, Question 2}
+
+\subsection*{Answer}
+
+\begin{lstlisting}[language=bash, caption=Unix commands, label=lst:copy]
+(base) sofiahuang@Sofias-MacBook-Pro data440 % wc -l test.txt
+       5 test.txt
+
+(base) sofiahuang@Sofias-MacBook-Pro data440 % echo "CS 800" >> test.txt; cat test.txt
+CS 800
+CS 432
+CS 725
+MATH 212
+MATH 32
+CS 800
+
+(base) sofiahuang@Sofias-MacBook-Pro data440 % grep CS test.txt
+CS 800
+CS 432
+CS 725
+CS 800
+
+(base) sofiahuang@Sofias-MacBook-Pro data440 % grep -c CS test.txt
+4
+
+(base) sofiahuang@Sofias-MacBook-Pro data440 % sort test.txt
+CS 432
+CS 725
+CS 800
+CS 800
+MATH 212
+MATH 32
+
+(base) sofiahuang@Sofias-MacBook-Pro data440 % sort -k2 test.txt
+MATH 212
+MATH 32
+CS 432
+CS 725
+CS 800
+CS 800
+
+(base) sofiahuang@Sofias-MacBook-Pro data440 % sort -k2 -n test.txt
+
+MATH 32
+MATH 212
+CS 432
+CS 725
+CS 800
+CS 800
+
+(base) sofiahuang@Sofias-MacBook-Pro data440 % sort test.txt | uniq -c
+
+   1 CS 432
+   1 CS 725
+   2 CS 800
+   1 MATH 212
+   1 MATH 32
+\end{lstlisting}
+
+\subsection*{Discussion}
+
+For each command, I used the \lstinline{man} command in the Terminal to find out its purpose.
+
+The \lstinline{wc -l} command returns the line count (specified by the \lstinline{-1} parameter) of the input file, which was 5. 
+
+The \lstinline{echo} command writes arguments to the standard output, which is what you see returned in the Terminal after executing commands that have an output. The \lstinline{>>} symbol is used for output redirection, which is how the output, "CS 800", from the \lstinline{echo} command is able to be appended to the input file. Then, the semicolon is used to run multiple Linux commands in one line (using a semicolon, all commands are run, regardless if the previous executed successfully or not). The \lstinline{cat} command is used to read and print the specified file to the standard output so we can check and see that "CS 800" was indeed appended to the text file.
+
+The \lstinline{grep} command searches the file and returns the lines that match the given patterns/regular expressions. In this example, we looked for "CS" and all of the lines in the test file with that expression were returned.
+
+When you add the \lstinline{-c} parameter to the \lstinline{grep} command, the output returns the count of matches from the input file, which in this case was 4.
+
+The \lstinline{sort} command sorts the input file by line, lexicographically.
+
+When the \lstinline{-k2} parameter is added, the input file is sorted by the second column. However, still in lexicographical order, which is why "212" is before "32".
+
+The \lstinline{-n} parameter tells the command to sort numerically. Combined with the \lstinline{-k2} parameter, we see that the file is sorted by the second column in ascending numerical order.
+
+Lastly, the pipe command combine multiple commands so that the output of one is the input of the next. The \lstinline{uniq} command compares each adjacent line and filters out duplicates. It is best to sort the input file first since this command compares adjacent lines, so for example, if the first and last line (not adjacent) are duplicates of each other, this will not be detected and both lines will be outputted. By adding the \lstinline{-c} parameter, the count of each line is added to the output. Since "CS 800" appears twice in the file, there is a "2" in front of it.
+
+\clearpage
+
+\section*{Part 3, Question 1}
+
+\subsection*{Answer}
+
+\begin{lstlisting}[language=bash, caption=Running get\_tweets.py, label=lst:copy]
+(base) sofiahuang@Sofias-MacBook-Pro data440 % python3 get_tweets.py "national park"
+25 tweets written to tweets.jsonl for query "national park lang:en has:links -is:retweet"
+\end{lstlisting}
+
+\begin{lstlisting}[language=bash, caption=tweets.jsonl output snippet, label=lst:copy]
+(base) sofiahuang@Sofias-MacBook-Pro data440 % jq . tweets.jsonl 
+{
+  "text": "Come tour with us!\nThe Mole National Park is a place to visit and experience wildlife in the Savanna Region of Ghana.\nNature is beautiful, Yaa Asantewaa Tours is here for you!!\nContact us anytime for adventurous and exciting tours.\n0209079288\nyaaahendea@gmail.com\n#pulseofafrica https://t.co/YhUHPGdUTO",
+  "id": "1567876436031062018",
+  "entities": {
+    "annotations": [
+      {
+        "start": 18,
+        "end": 40,
+        "probability": 0.2616,
+        "type": "Place",
+        "normalized_text": "The Mole National Park"
+      },
+      {
+        "start": 93,
+        "end": 115,
+        "probability": 0.8115,
+        "type": "Place",
+        "normalized_text": "Savanna Region of Ghana"
+      },
+      {
+        "start": 139,
+        "end": 157,
+        "probability": 0.5972,
+        "type": "Place",
+        "normalized_text": "Yaa Asantewaa Tours"
+      }
+    ],
+ ...
+\end{lstlisting}
+
+
+\subsection*{Discussion}
+
+After I created a Developer Account and installed twarc, I had to find where the config file was loacted on my computer that contained my keys in order to run \lstinline{get_tweets.py}. Once I found it and changed the file path in the python script, I was able to run and get tweets (I chose to use the keywords "national park"). In order to display the JSONL file in an organized manner, I installed and used the \lstinline{jq} package, which is a command-line JSON file processor.
+
+\section*{Part 3, Question 2}
+
+\subsection*{Answer}
+
+\begin{lstlisting}[language=bash, caption=tweets\_info.txt output snippet, label=lst:copy]
+(base) sofiahuang@Sofias-MacBook-Pro data440 % python3 process_tweets.py < tweets.jsonl > tweets_info.txt
+(base) sofiahuang@Sofias-MacBook-Pro data440 % cat tweets_info.txt
+1567876436031062018	2022-09-08T14:04:06.000Z	yaaasantewaa_ad	0
+  Brand Category: Sports & Fitness Business
+  Brand Category: Travel & Transportation Business
+  Entities [Entity Service]: Travel
+  Interests and Hobbies Category: Destinations
+  Interests and Hobbies Category: Outdoors
+  Interests and Hobbies: National parks
+  Unified Twitter Taxonomy: National parks
+  https://twitter.com/yaaasantewaa_ad/status/1567876436031062018/photo/1
+\end{lstlisting}
+
+\subsection*{Discussion}
+
+For this question I ran the line of code provided in the instructions and then used the \lstinline{cat} command to show the .txt file that was created. Above is a snippet of the output showing the tweet information.
 
 \section*{References}
 
 \emph{Every report must list the references that you consulted while completing the assignment. If you consulted a webpage, you must include the URL.}
 
 \begin{itemize}
-    \item {Trigonometry Graphs, \url{https://byjus.com/maths/trigonometry-graphs/}
-    \item {StackExchange - Can't edit a downloaded template from Overleaf on TexMaker, \url{https://tex.stackexchange.com/questions/593363/cant-edit-a-downloaded-template-from-overleaf-on-texmaker}
+    \item {StackExchange - Can't edit a downloaded template from Overleaf on TexMaker} \url{https://tex.stackexchange.com/questions/593363/cant-edit-a-downloaded-template-from-overleaf-on-texmaker}
     \item {How to Create a Folder in Github Repos in 4 Simple Steps}
     \url{https://www.alpharithms.com/how-to-create-a-folder-in-github-repos-463022/}
+    \item {Linux Commands} \url{https://linuxconfig.org/linux-commands-cheat-sheet}
+    \item {Latex Inline Code} \url{https://tex.stackexchange.com/questions/286094/insert-code-keywords-inline}
+    \item{Linux chmod} \url{https://www.computerhope.com/unix/uchmod.htm}
 \end{itemize}
 
 \end{document}
