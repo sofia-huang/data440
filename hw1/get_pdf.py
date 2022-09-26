@@ -13,7 +13,7 @@ def request_url(url):
     except NewConnectionError:
         print(f'Invalid URL: "{url}"')
     except Exception as e:
-        print('There was an exception that occured when requesting the URL')
+        print('There was an exception that occurred when requesting the URL')
         print(e)
         return
 
@@ -26,7 +26,12 @@ def request_url(url):
         # make sure the full url is obtained from the href attribute
         href = links.get('href')
         full_url = urljoin(url, href)
-        link_response = requests.get(full_url)
+        try:
+            link_response = requests.get(full_url)
+        except Exception as e:
+            print('There was an exception that occurred when requesting the URL')
+            print(e)
+            continue
         # use regex to see if link is a pdf using its content type header
         pattern = re.compile('([a-z]+\/)(pdf)')
         m = pattern.match(link_response.headers['Content-Type'])
