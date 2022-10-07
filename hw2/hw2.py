@@ -170,6 +170,9 @@ def get_memento_age():
     mem_dict = {0:0}
     os.chdir("/Users/sofiahuang/Documents/WM/FALL2022/DATA440/timemaps")
     file_count = 0
+    memento_counts = []
+    memento_ages = []
+    uris = []
     # iterate over json files
     for json_file in os.listdir("/Users/sofiahuang/Documents/WM/FALL2022/DATA440/timemaps"):
         # open json file
@@ -183,30 +186,31 @@ def get_memento_age():
         memento_earliest_date_str = data['mementos']['list'][0]['datetime']
         memento_earliest_date = datetime.strptime(memento_earliest_date_str[0:10], '%Y-%m-%d')
         memento_age = (datetime.today() - memento_earliest_date).days
-        if memento_age in mem_dict:
-            current_val = mem_dict.get(memento_age)
-            mem_dict.update({memento_age: current_val+1})
-        else:
-            mem_dict.update({memento_age: 1})
+        # add data to lists
+        memento_ages.append(memento_age)
+        memento_counts.append(len(data['mementos']['list']))
+        uris.append(data['mementos']['list'][0]['uri'])
         f.close()
         file_count+=1
-        print(file_count)
-
+    # zip lists in dataframe and store as .csv file
+    df = pd.DataFrame(list(zip(uris, memento_ages, memento_counts)))
+    df = df.rename(columns={"0": "uri", "1": "age", "2": "num_memento"})
+    df.to_csv("/Users/sofiahuang/Documents/WM/FALL2022/DATA440/memento_ages_counts.csv", index=False)
     # open file for writing dictionary to csv file
-    w = csv.writer(open("/Users/sofiahuang/Documents/WM/FALL2022/DATA440/memento_ages.csv", "w"))
+    #w = csv.writer(open("/Users/sofiahuang/Documents/WM/FALL2022/DATA440/memento_ages.csv", "w"))
     # loop over dictionary keys and values
-    for key, val in mem_dict.items():
+    #for key, val in mem_dict.items():
         # write every key and value to file
-        w.writerow([key, val])
+        #w.writerow([key, val])
 
 def memento_age_scatterplot():
     # load data into dataframe
-    df = pd.read_csv('/Users/sofiahuang/Documents/WM/FALL2022/DATA440/memento_ages.csv')
+    df = pd.read_csv('/Users/sofiahuang/Documents/WM/FALL2022/DATA440/memento_ages_counts.csv')
     # rename columns
-    df.rename(columns={"0": "age", "0.1": "uri"}, inplace=True)
+    df.rename(columns={"0": "uri", "1": "age", "2": "num_memento"}, inplace=True)
     plt.figure(figsize=(8, 4))
     # create scatterplot, add grid, axis labels, and save plot
-    plt.scatter(df['age'], df['uri'], c ="lightskyblue", alpha=0.5, edgecolors='steelblue')
+    plt.scatter(df['age'], df['num_memento'], c ="lightskyblue", alpha=0.5, edgecolors='steelblue')
     plt.grid()
     plt.xlabel('Age in Days')
     plt.ylabel('Number of Mementos')
@@ -214,21 +218,21 @@ def memento_age_scatterplot():
     plt.savefig('/Users/sofiahuang/Documents/WM/FALL2022/DATA440/memento_age_scatter.png')
 
 if __name__ == "__main__":
-    search_terms = ['Queen', 'hurricane', 'Ukraine', 'NASA', 'Biden']
-    for term in search_terms:
-        for i in range(25):
-            get_tweets(term)
+    #search_terms = ['Queen', 'hurricane', 'Ukraine', 'NASA', 'Biden']
+    #for term in search_terms:
+        #for i in range(25):
+            #get_tweets(term)
 
-    final_links = get_links()
+    #final_links = get_links()
 
-    links = read_unique_links_file('unique_uris.txt')
-    os.chdir("/Users/sofiahuang/Documents/WM/FALL2022/DATA440")
-    timemap_directory = os.path.join(os.getcwd(),'timemaps')
-    if not os.path.exists(timemap_directory):
-        os.mkdir(timemap_directory)
-    get_timemaps(links, timemap_directory)
+    #links = read_unique_links_file('unique_uris.txt')
+    #os.chdir("/Users/sofiahuang/Documents/WM/FALL2022/DATA440")
+    #timemap_directory = os.path.join(os.getcwd(),'timemaps')
+    #if not os.path.exists(timemap_directory):
+        #os.mkdir(timemap_directory)
+    #get_timemaps(links, timemap_directory)
 
-    count_mementos()
+    #count_mementos()
     get_memento_age()
     memento_age_scatterplot()
 
