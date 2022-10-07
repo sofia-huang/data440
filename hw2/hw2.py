@@ -196,16 +196,8 @@ def get_memento_age():
     df = pd.DataFrame(list(zip(uris, memento_ages, memento_counts)))
     df = df.rename(columns={"0": "uri", "1": "age", "2": "num_memento"})
     df.to_csv("/Users/sofiahuang/Documents/WM/FALL2022/DATA440/memento_ages_counts.csv", index=False)
-    # open file for writing dictionary to csv file
-    #w = csv.writer(open("/Users/sofiahuang/Documents/WM/FALL2022/DATA440/memento_ages.csv", "w"))
-    # loop over dictionary keys and values
-    #for key, val in mem_dict.items():
-        # write every key and value to file
-        #w.writerow([key, val])
 
-def memento_age_scatterplot():
-    # load data into dataframe
-    df = pd.read_csv('/Users/sofiahuang/Documents/WM/FALL2022/DATA440/memento_ages_counts.csv')
+def memento_age_scatterplot(df, filename):
     # rename columns
     df.rename(columns={"0": "uri", "1": "age", "2": "num_memento"}, inplace=True)
     plt.figure(figsize=(8, 4))
@@ -214,8 +206,7 @@ def memento_age_scatterplot():
     plt.grid()
     plt.xlabel('Age in Days')
     plt.ylabel('Number of Mementos')
-    plt.title('Age of Mementos')
-    plt.savefig('/Users/sofiahuang/Documents/WM/FALL2022/DATA440/memento_age_scatter.png')
+    plt.savefig(filename)
 
 if __name__ == "__main__":
     #search_terms = ['Queen', 'hurricane', 'Ukraine', 'NASA', 'Biden']
@@ -231,10 +222,16 @@ if __name__ == "__main__":
     #if not os.path.exists(timemap_directory):
         #os.mkdir(timemap_directory)
     #get_timemaps(links, timemap_directory)
-
+    
     #count_mementos()
-    get_memento_age()
-    memento_age_scatterplot()
+    #get_memento_age()
+
+    df = pd.read_csv('/Users/sofiahuang/Documents/WM/FALL2022/DATA440/memento_ages_counts.csv')
+    memento_age_scatterplot(df, '/Users/sofiahuang/Documents/WM/FALL2022/DATA440/memento_age_scatter.png')
+
+    df2 = df.drop(df.index[df['num_memento'] > 20000])
+    memento_age_scatterplot(df2, '/Users/sofiahuang/Documents/WM/FALL2022/DATA440/memento_age_scatter_no_outlier.png')
+
 
 
     
