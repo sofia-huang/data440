@@ -209,22 +209,22 @@ def memento_age_scatterplot(df, filename):
     plt.savefig(filename)
 
 if __name__ == "__main__":
-    #search_terms = ['Queen', 'hurricane', 'Ukraine', 'NASA', 'Biden']
-    #for term in search_terms:
-        #for i in range(25):
-            #get_tweets(term)
+    search_terms = ['Queen', 'hurricane', 'Ukraine', 'NASA', 'Biden']
+    for term in search_terms:
+        for i in range(25):
+            get_tweets(term)
 
-    #final_links = get_links()
+    final_links = get_links()
 
-    #links = read_unique_links_file('unique_uris.txt')
-    #os.chdir("/Users/sofiahuang/Documents/WM/FALL2022/DATA440")
-    #timemap_directory = os.path.join(os.getcwd(),'timemaps')
-    #if not os.path.exists(timemap_directory):
-        #os.mkdir(timemap_directory)
-    #get_timemaps(links, timemap_directory)
+    links = read_unique_links_file('unique_uris.txt')
+    os.chdir("/Users/sofiahuang/Documents/WM/FALL2022/DATA440")
+    timemap_directory = os.path.join(os.getcwd(),'timemaps')
+    if not os.path.exists(timemap_directory):
+        os.mkdir(timemap_directory)
+    get_timemaps(links, timemap_directory)
     
-    #count_mementos()
-    #get_memento_age()
+    count_mementos()
+    get_memento_age()
 
     df = pd.read_csv('/Users/sofiahuang/Documents/WM/FALL2022/DATA440/memento_ages_counts.csv')
     memento_age_scatterplot(df, '/Users/sofiahuang/Documents/WM/FALL2022/DATA440/memento_age_scatter.png')
