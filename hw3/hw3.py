@@ -99,8 +99,6 @@ def count_query_term(directory):
 
 
 if __name__ == "__main__":
-# https://wrongsideofmemphis.com/2010/03/01/store-standard-output-on-a-variable-in-python/
-# https://stackoverflow.com/questions/3503879/assign-output-of-os-system-to-a-variable-and-prevent-it-from-being-displayed-on
 
     links = read_unique_links_file('unique_uris.txt')
     os.chdir("/Users/sofiahuang/Documents/WM/FALL2022/DATA440")
