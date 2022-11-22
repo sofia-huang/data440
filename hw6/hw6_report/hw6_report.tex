@@ -1,0 +1,197 @@
+\documentclass[12pt]{article}
+\usepackage{times} 			% use Times New Roman font
+
+\usepackage[margin=1in]{geometry}   % sets 1 inch margins on all sides
+\usepackage[hidelinks]{hyperref}               % for URL formatting
+\usepackage[pdftex]{graphicx}       % So includegraphics will work
+\setlength{\parskip}{1em}           % skip 1em between paragraphs
+\usepackage{indentfirst}            % indent the first line of each paragraph
+\usepackage{datetime}
+\usepackage[small, bf]{caption}
+\usepackage{listings}               % for code listings
+\usepackage{xcolor}                 % for styling code
+\usepackage{multirow}
+\usepackage{adjustbox}
+\usepackage{caption}
+
+
+%New colors defined below
+\definecolor{backcolour}{RGB}{246, 246, 246}   % 0xF6, 0xF6, 0xF6
+\definecolor{codegreen}{RGB}{16, 124, 2}       % 0x10, 0x7C, 0x02
+\definecolor{codepurple}{RGB}{170, 0, 217}     % 0xAA, 0x00, 0xD9
+\definecolor{codered}{RGB}{154, 0, 18}         % 0x9A, 0x00, 0x12
+
+%Code listing style named "gcolabstyle" - matches Google Colab
+\lstdefinestyle{gcolabstyle}{
+  basicstyle=\ttfamily\small,
+  backgroundcolor=\color{backcolour},   
+  commentstyle=\itshape\color{codegreen},
+  keywordstyle=\color{codepurple},
+  stringstyle=\color{codered},
+  numberstyle=\ttfamily\footnotesize\color{darkgray}, 
+  breakatwhitespace=false,         
+  breaklines=true,                 
+  captionpos=b,                    
+  keepspaces=true,                 
+  numbers=left,                    
+  numbersep=5pt,                  
+  showspaces=false,                
+  showstringspaces=false,
+  showtabs=false,                  
+  tabsize=2
+}
+
+\lstset{style=gcolabstyle}      %set gcolabstyle code listing
+
+% to make long URIs break nicely
+\makeatletter
+\g@addto@macro{\UrlBreaks}{\UrlOrds}
+\makeatother
+
+% for fancy page headings
+\usepackage{fancyhdr}
+\setlength{\headheight}{13.6pt} % to remove fancyhdr warning
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\small \thepage}
+\lhead{\small HW\#6, Huang}  % EDIT THIS, REPLACE # with HW number
+\chead{\small DATA 440, Fall 2022} 
+
+%-------------------------------------------------------------------------
+\begin{document}
+
+% EDIT THE ITEMS HERE
+\begin{centering}
+{\large\textbf{Creating (good) social bots}}\\ 
+Sofia Huang\\
+due 11/22/2022\\
+\end{centering}
+
+%-------------------------------------------------------------------------
+
+% The * after \section just says to not number the sections
+\section*{1. Usefulness}
+\noindent \textbf{Consider creating a bot to solve or partly solve a problem you care about --- maybe not poverty or crime or income inequality. In other words create a tool to address a need. Provide an argument in your report for the reason your Twitter bot is useful.}
+
+I created a bot called @timeforabreak\_. The purpose is to give users reminders while they're on Twitter to stop mindlessly scrolling and start being more present. As well as, give users positive affirmations to promote self-kindness. Also, the tweets are mostly blank spaces to create a break in the users' Twitter feed. Many, myself included, are guilty of spending too much time on social media. This bot will help users be more aware of their actions and remind them to live in the real world instead of on their phones. 
+
+\section*{2. Originality/Innovation}
+\noindent \textbf{Express yourself, be creative. Alternatively, consider improving a pre-existing solution or tool. Provide an argument in your report for the reason your Twitter bot is original or innovative.}
+
+My bot is innovative because although there are a few bots that give reminders to take a break from Twitter. Mine includes the empty space as a way to clear the mind for a few seconds and allow them to think about the reminder and the right action for them to take instead of just being able to scroll by and ignore it. 
+
+The tweets that my bot posts are composed of a header/attention-grabbing phrase, such as "REMINDER:". Then, many empty lines to give the user a Twitter consumption break. Lastly, a final reminder, such as "Stop mindlessly scrolling." The headers and reminders are stored in .txt files. I randomly choose one line from each and create the final tweet message. I check if the final tweet has already been tweeted and ensure it is less than the maximum characters that Twitter allows (280 characters) and have the bot post the tweet every 30 minutes. 
+
+I ran the script for about 12 hours and you can see the tweets @timeforabreak\_ on Twitter.
+
+\begin{lstlisting}[language=Python, caption=Twitter bot Python script, label=lst:copy]
+import tweepy
+import os
+import random
+from time import sleep
+
+
+CONSUMER_KEY='O2se0zpXDNsozClRlCrXfV1ZK'
+CONSUMER_SECRET='cDjPlrXgFSIGF9RfWUsf0bCWWsa5QuxhGvOzmaUoDClNrKrlmL'
+ACCESS_TOKEN='ACCESS_TOKEN'
+ACCESS_TOKEN_SECRET='ACCESS_TOKEN_SECRET'
+WAIT_TIME_HOURS = 0.5
+TWEETS = []
+
+# function to authorize bot account
+def authorize_twitter_application(consumer_key, consumer_secret):
+    #based on: https://developer.twitter.com/en/docs/authentication/oauth-1-0a/pin-based-oauth
+    '''
+        Authorize twitter application to perform task on behalf of user.
+        Returns access_token and access_token_secret
+    '''
+    #consumer_key='O2se0zpXDNsozClRlCrXfV1ZK'
+    #consumer_secret='cDjPlrXgFSIGF9RfWUsf0bCWWsa5QuxhGvOzmaUoDClNrKrlmL'
+    #credit on twitter bot: https://twittercommunity.com/t/multiple-bot-accounts/128332
+    #credit: https://gist.github.com/hezhao/4772180#gistcomment-2583970 , https://gist.github.com/hezhao/4772180#gistcomment-3213988
+    auth = tweepy.OAuthHandler(consumer_key, consumer_secret, callback='oob')
+    # get access token from the user and redirect to auth URL
+    auth_url = auth.get_authorization_url()
+    print('Visit this authorization URL from your browser: ' + auth_url)
+
+    # ask user to verify the PIN generated in broswer
+    verifier = input('PIN: ').strip()
+    auth.get_access_token(verifier)
+    print('ACCESS_KEY = "{}"'.format(auth.access_token))
+    print('ACCESS_SECRET = "{}"'.format(auth.access_token_secret))
+    
+    client = tweepy.Client(consumer_key=CONSUMER_KEY,
+    consumer_secret=CONSUMER_SECRET,
+    access_token=auth.access_token,
+    access_token_secret=auth.access_token_secret)
+    return client
+
+# function for first "Hello, World!" tweet from the guide
+def post_first_tweet():
+    client = tweepy.Client(consumer_key=CONSUMER_KEY,
+    consumer_secret=CONSUMER_SECRET,
+    access_token=ACCESS_TOKEN,
+    access_token_secret=ACCESS_TOKEN_SECRET)
+
+
+    response = client.create_tweet(text='Hello, World!')
+    print(response)
+
+# function to generate tweet from .txt file containing possible tweets
+def get_tweet_text(header_file, body_file):
+    tweet_invalid = True
+    while tweet_invalid:
+        try:
+            with open(header_file, 'r') as f:
+                tweet_headers = f.read().splitlines()
+            randomly_picked_header = tweet_headers[random.randrange(len(tweet_headers))]
+        
+            with open(body_file, 'r') as f:
+                tweets = f.read().splitlines()
+            randomly_picked_tweet = tweets[random.randrange(len(tweets))]
+        
+            final_tweet = '{}\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n{}'.format(randomly_picked_header, randomly_picked_tweet)
+            if (len(final_tweet)>280 or final_tweet in TWEETS):
+                tweet_invalid = True
+            else:
+                tweet_invalid = False
+                TWEETS.append(final_tweet)
+        except Exception as e:
+            print(e)
+    print(final_tweet)
+    return final_tweet
+    
+# function to post tweet every 30 min
+def tweet_text():
+    client = authorize_twitter_application(CONSUMER_KEY, CONSUMER_SECRET)
+    while True:
+        try:
+            tweet = get_tweet_text('/Users/sofiahuang/Desktop/TwitterHeading.txt', '/Users/sofiahuang/Desktop/TwitterBody.txt')
+            response = client.create_tweet(text=tweet)
+        except tweepy.TweepError as e:
+            print(e.reason)
+        sleep(60*60*WAIT_TIME_HOURS)
+
+if __name__ == "__main__":
+    #authorize_twitter_application(CONSUMER_KEY, CONSUMER_SECRET)
+    #post_first_tweet()
+    #get_tweet_text('/Users/sofiahuang/Desktop/TwitterHeading.txt', '/Users/sofiahuang/Desktop/TwitterBody.txt')
+    tweet_text()
+\end{lstlisting}
+
+\section*{References}
+
+\begin{itemize}
+    \item{BotWiki} \url{https://botwiki.org/bots/open-source/}
+    \item{Step-by-Step Guide to create a Twitter Bot}
+    \url{https://github.com/anwala/teaching-web-science/blob/main/fall-2022/week-10/data_440_03_f22_mod_10_twitter_bot.ipynb}
+    \item{Github - Twitter bot example} \url{https://github.com/dhaitz/twitter-bot/blob/master/bot.py}
+\end{itemize}
+
+\end{document}
+
+
+
+
+
+
