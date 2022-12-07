@@ -1,0 +1,138 @@
+-------------------------------
+***Cluster 0***
+MarvelStudios
+-------------------------------
+***Cluster 1***
+mmschocolate
+CoachMikeLondon
+USAGym
+VSPPIO
+williamandmary
+TribeAthletics
+Dmoceanu
+the1975
+-------------------------------
+***Cluster 2***
+-------------------------------
+***Cluster 3***
+Harry_Styles
+-------------------------------
+***Cluster 4***
+IvePetThatDog
+-------------------------------
+***Cluster 5***
+-------------------------------
+***Cluster 6***
+Oreo
+-------------------------------
+***Cluster 7***
+BritishBakeOff
+NBA
+50cent
+RealGrumpyCat
+DisneyAnimation
+FallonTonight
+DisneyPlus
+Disney
+NFL
+-------------------------------
+***Cluster 8***
+-------------------------------
+***Cluster 9***
+-------------------------------
+***Cluster 10***
+-------------------------------
+***Cluster 11***
+-------------------------------
+***Cluster 12***
+-------------------------------
+***Cluster 13***
+-------------------------------
+***Cluster 14***
+RobertIrvine
+HaileeSteinfeld
+Twitter
+Aly_Raisman
+-------------------------------
+***Cluster 15***
+-------------------------------
+***Cluster 16***
+-------------------------------
+***Cluster 17***
+Discovery
+StephenCurry30
+TheOnion
+NASAEarth
+CelebrityCruise
+Money23Green
+Forbes
+TODAYshow
+espnW
+usatodaytravel
+lizzo
+washingtonpost
+NASAHubble
+SPACEdotcom
+uclagymnastics
+netflix
+wbd
+BBCWorld
+BleacherReport
+Tripadvisor
+gymnastics
+lonelyplanet
+TravelLeisure
+CNN
+Southern_Living
+timestravel
+OurOcean
+NationalZoo
+AppleNews
+NASASolarSystem
+SportsCenter
+GMA
+colonialwmsburg
+KlayThompson
+nytimes
+NatGeo
+NASA
+TeamUSA
+-------------------------------
+***Cluster 18***
+IAMLILBUB
+-------------------------------
+***Cluster 19***
+KevinHart4real
+EatFellowHumans
+amazonbooks
+TheRock
+TEEDinosaurs
+PEOPLEPets
+LaurieHernandez
+PopTartsUS
+PetCollectiveTV
+onedirection
+AnimalPlanet
+petfinder
+Allrecipes
+rihanna
+TheTedAllen
+bonappetit
+GuyFieri
+Oprah
+travelchannel
+SportsEngine
+PTXofficial
+NiallOfficial
+JohnCena
+KDTrey5
+dog_rates
+TLC
+aliciakeys
+leebrice
+BuzzFeedFood
+andrewzimmern
+FoodNetwork
+KingJames
+KimKardashian
+people
