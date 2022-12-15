@@ -1,0 +1,166 @@
+\documentclass[12pt]{article}
+\usepackage{times} 			% use Times New Roman font
+
+\usepackage[margin=1in]{geometry}   % sets 1 inch margins on all sides
+\usepackage[hidelinks]{hyperref}               % for URL formatting
+\usepackage[pdftex]{graphicx}       % So includegraphics will work
+\setlength{\parskip}{1em}           % skip 1em between paragraphs
+\usepackage{indentfirst}            % indent the first line of each paragraph
+\usepackage{datetime}
+\usepackage[small, bf]{caption}
+\usepackage{listings}               % for code listings
+\usepackage{xcolor}                 % for styling code
+\usepackage{multirow}
+\usepackage{adjustbox}
+\usepackage{caption}
+
+
+%New colors defined below
+\definecolor{backcolour}{RGB}{246, 246, 246}   % 0xF6, 0xF6, 0xF6
+\definecolor{codegreen}{RGB}{16, 124, 2}       % 0x10, 0x7C, 0x02
+\definecolor{codepurple}{RGB}{170, 0, 217}     % 0xAA, 0x00, 0xD9
+\definecolor{codered}{RGB}{154, 0, 18}         % 0x9A, 0x00, 0x12
+
+%Code listing style named "gcolabstyle" - matches Google Colab
+\lstdefinestyle{gcolabstyle}{
+  basicstyle=\ttfamily\small,
+  backgroundcolor=\color{backcolour},   
+  commentstyle=\itshape\color{codegreen},
+  keywordstyle=\color{codepurple},
+  stringstyle=\color{codered},
+  numberstyle=\ttfamily\footnotesize\color{darkgray}, 
+  breakatwhitespace=false,         
+  breaklines=true,                 
+  captionpos=b,                    
+  keepspaces=true,                 
+  numbers=left,                    
+  numbersep=5pt,                  
+  showspaces=false,                
+  showstringspaces=false,
+  showtabs=false,                  
+  tabsize=2
+}
+
+\lstset{style=gcolabstyle}      %set gcolabstyle code listing
+
+% to make long URIs break nicely
+\makeatletter
+\g@addto@macro{\UrlBreaks}{\UrlOrds}
+\makeatother
+
+% for fancy page headings
+\usepackage{fancyhdr}
+\setlength{\headheight}{13.6pt} % to remove fancyhdr warning
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\small \thepage}
+\lhead{\small HW\#9, Huang}  % EDIT THIS, REPLACE # with HW number
+\chead{\small DATA 440, Fall 2022} 
+
+%-------------------------------------------------------------------------
+\begin{document}
+
+% EDIT THE ITEMS HERE
+\begin{centering}
+{\large\textbf{Final exam - Email Classification}}\\ 
+Sofia Huang\\
+due 12/20/2022\\
+\end{centering}
+
+%-------------------------------------------------------------------------
+
+% The * after \section just says to not number the sections
+\section*{1. Create two datasets, Testing and Training}
+\noindent \textbf{Create two datasets, Training and Testing. You may choose a topic to classify your emails on (but choose only 1 topic). This can be spam, shopping emails, school emails, etc. Make sure that these are plain-text documents and that they do not include HTML tags. The documents in the Testing set should be different from the documents in the Training set. Upload your datasets to your GitHub repo. Please do not include emails that contain sensitive information.}
+
+\noindent\textbf{A: What topic did you decide to classify on?}
+
+I chose to classify on ads vs non-ad emails. A lot of my emails that I immediately delete are subscription-based shopping advertisements so I thought it would be a good topic to classify on versus emails that contain important information or need a response. 
+
+For the results I have selected emails that are not advertisements to be relevant and advertisement emails to be non-relevant. Ideally, the classifier would filter my emails to show only the relevant, or non-advertisement emails.
+
+\section*{2. Naive Bayes classifier}
+\noindent \textbf{Use the example code in the class Colab notebook to train and test the Naive Bayes classifier.
+Use your Training dataset to train the Naive Bayes classifier.
+Use your Testing dataset to test the Naive Bayes classifier.
+Create a table to report the classification results for each email message in the Testing dataset. The table should include what the classifier reported (relevant or non-relevant) and the actual classification.}
+
+\begin{table}[h]
+\centering
+\caption{Classification Results}
+\label{tbl:simple}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Email} & \textbf{Classifier Output} & \textbf{Actual Classification} \\ \hline \hline
+1 & Non-relevant & Non-relevant \\ \hline
+2 & Non-relevant & Non-relevant \\ \hline
+3 & Non-relevant & Non-relevant \\ \hline
+4 & Non-relevant & Non-relevant \\ \hline
+5 & Non-relevant & Non-relevant \\ \hline
+6 & Relevant & Relevant \\ \hline
+7 & Non-relevant & Relevant \\ \hline
+8 & Non-relevant & Relevant \\ \hline
+9 & Relevant & Relevant \\ \hline
+10 & Relevant & Relevant \\ \hline
+\end{tabular}
+\end{table}
+
+\noindent \textbf{A. For those emails that the classifier got wrong, what factors might have caused the classifier to be incorrect? You will need to look at the text of the email to determine this.}
+
+The classifier classified two emails incorrectly. Both were relevant (not ads) emails, classified as non-relevant (ads). The first email that was classified incorrectly did not have a salutation or a closing line like many of the relevant emails from the training set which could have caused the classifier to think it was non-relevant. The second email was a club meeting recap that included future events and encouraged members to attend them. It contained phrases like "click this link" and "please sign up" which might have been a reason for the classifier to mark it as an advertisement. 
+
+\section*{3. Confusion Matrix}
+\noindent \textbf{Draw a confusion matrix for your classification results (see Module 13, slides 42).
+This should be a table in Markdown or LaTeX, NOT a screenshot of output or image generated by another program. There's an example of a LaTeX confusion matrix in the Overleaf report template.}
+
+For the confusion matrix, I categorized relevant (not ads) as positive and non-relevant (ads) as negative.
+
+\begin{table}[h]
+\centering
+\caption{Confusion Matrix}
+\label{tbl:confusion}
+\begin{tabular}{l|l|c|c|}
+\multicolumn{2}{c}{}&\multicolumn{2}{c}{Actual}\\
+\cline{3-4}
+\multicolumn{2}{c|}{}&Relevant&Non-relevant\\
+\cline{2-4}
+\multirow{2}{*}{Predicted}& Relevant & 3 (TP) & 0 (FP)\\
+\cline{2-4}
+& Non-relevant & 2 (FN) & 5 (TN) \\
+\cline{2-4}
+\end{tabular}
+\end{table}
+
+\noindent \textbf{A. Based on the results in the confusion matrix, how well did the classifier perform?}
+
+The classifier performed relatively well as it did not have any false positives, only 2 false negatives. Larger training and testing sets would be able to show more accurate results for the classifier to assess its performance.
+
+\noindent \textbf{B. Would you prefer an email classifier to have more false positives or more false negatives? Why?}
+
+I would rather have an email classifier have more false positives (classifying a non-relevant email as relevant) so that there is less chance of missing a relevant email if the inbox was filtered by the classifier. 
+
+\section*{Extra Credit}
+\noindent \textbf{Report the precision and recall scores of your classification results. Include the formulas you used to compute these values.}
+
+\[
+Precision = \frac{\text{TP}}{\text{TP+FP}} = \frac{3}{3 + 0} = \frac{3}{3} = 1
+\]
+
+\[
+Recall = \frac{\text{TP}}{\text{TP+FN}} = \frac{3}{3 + 2} = \frac{3}{5} = 0.6
+\]
+
+\section*{References}
+
+\begin{itemize}
+    \item{Confusion Matrix} \url{https://towardsdatascience.com/understanding-confusion-matrix-a9ad42dcfd62}
+    \item{Latex Fraction}\url{https://tex.stackexchange.com/questions/106700/text-mode-in-fractions}
+\end{itemize}
+
+\end{document}
+
+
+
+
+
+

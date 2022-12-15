@@ -1,0 +1,10 @@
+Hi Sofia,
+
+Banner is a bit behind what has been approved. 
+
+There will be two courses next semester that meet the capstone:
+
+DATA 441: Advanced Applied Machine Learning
+DATA 440: Applications of Operations Research to Data Science
+
+Prof. Settle
