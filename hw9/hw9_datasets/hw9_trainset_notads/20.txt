@@ -1,0 +1,8 @@
+The most beneficial classes I took were Computing in OR and Linear Programming. The former will introduce you to most of the programming languages for OR/ data science like R, C, bash, etc. (which you can add to your CV), and the latter will show you different ways to maximize profit/ minimize cost, which is helpful if you want to work in the industry. 
+
+I'm interested in getting a data science job with some machine learning. I haven't taken a specific class for that, but I will be taking a statistical learning course this upcoming semester. I interned at MITRE this summer and I know many COR students ended up working there. I found the classes I took very useful. For my project, I ended up using a concept I learned in linear programming. When I was doing research during my internship, I came across many relevant papers that used Markov chains, which you will learn if you take classes like Supply Chain or Stochastic Networks here. 
+
+Overall, I find the program very practical, and all the instructors I had so far are very knowledgeable and nice. It's a good program if you want to consider it. I hope this helps. Feel free to reach out if you have more questions!
+
+Best,
+Diep
